@@ -14,9 +14,9 @@
 <header><h1>Análisis Gestión de Planta CPRII</h1></header>
 
 <div class="controls-bar">
-    <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="display: flex; gap: 10px; align-items: center;">
         <strong>Archivo(s):</strong>
-        <button onclick="login()" class="date-filter" style="background: #f8f9fa; border-color: #ccc; color: #333;">Elegir archivos</button>
+        <button onclick="login()" class="date-filter" style="background: #f8f9fa; border: 1px solid #ccc; color: #333;">Elegir archivos</button>
         <span style="color: var(--success); font-weight: bold;">✅ Datos cargados.</span>
     </div>
 
@@ -43,22 +43,21 @@
             <div id="dir-oee" class="value">0%</div>
         </div>
 
-        <div style="color: #666; font-weight: bold; margin-bottom: 10px; font-size: 0.8rem; text-transform: uppercase;">OEE POR TURNO</div>
+        <div style="font-weight: bold; color: #555; margin-bottom: 10px; font-size: 0.8rem; text-transform: uppercase;">OEE POR TURNO</div>
         <div class="grid-kpis">
             <div class="card" style="border-top: 4px solid var(--m);"><h3>MAÑANA</h3><div id="oee-m" class="value">0%</div></div>
             <div class="card" style="border-top: 4px solid var(--t);"><h3>TARDE</h3><div id="oee-t" class="value">0%</div></div>
             <div class="card" style="border-top: 4px solid var(--n);"><h3>NOCHE</h3><div id="oee-n" class="value">0%</div></div>
         </div>
-
         <div id="grid-ceco-kpis" class="grid-kpis"></div>
-        <div id="grafico-ceco-oee" style="margin-bottom: 20px;"></div>
+        <div id="grafico-ceco-oee"></div>
         <div id="contenedor-acordeon"></div>
     </div>
 
     <div id="tab-memoria" class="content">
         <table>
             <thead>
-                <tr><th>Fecha</th><th>OT</th><th>Turno</th><th>Ctro. Costo</th><th>Nominal</th><th>Producido</th><th style="background:#e0f2fe">OEE %</th><th style="background:#fff9e6">GE %</th></tr>
+                <tr><th>Fecha</th><th>OT</th><th>Turno</th><th>Ctro. Costo</th><th>Nominal</th><th>Producido</th><th class="cell-oee">OEE %</th><th class="cell-ge">GE %</th></tr>
             </thead>
             <tbody id="body-memoria"></tbody>
         </table>
