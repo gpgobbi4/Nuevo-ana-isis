@@ -2,66 +2,73 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Planta Dashboard Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Gestión de Planta CPRII</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
     <script src="https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.min.js"></script>
 </head>
 <body>
-    <header><h1 style="font-size: 1.2rem;">Gestión de Planta CPRII</h1></header>
 
-    <div class="controls-bar">
-        <button onclick="login()" class="date-filter" style="width: 100%; margin-bottom: 10px; background: var(--primary); color: white;">
-            🔑 Iniciar Sesión OneDrive
-        </button>
+<header><h1>Análisis Gestión de Planta CPRII</h1></header>
+
+<div class="controls-bar">
+    <button onclick="login()" class="date-filter" style="background: var(--primary); color: white;">🔑 OneDrive Login</button>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;">
+        <strong>Filtrar:</strong>
+        <select id="sel-anio" class="date-filter" onchange="actualizarMeses()"><option value="ALL">AÑO (TODOS)</option></select>
+        <select id="sel-mes" class="date-filter" onchange="actualizarDias()"><option value="ALL">MES (TODOS)</option></select>
+        <select id="sel-dia" class="date-filter" onchange="aplicarFiltro()"><option value="ALL">DÍA (TODOS)</option></select>
+    </div>
+    <button class="btn-reset" onclick="resetearDatos()">🗑️ Limpiar Todo</button>
+</div>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="showTab('tab-directorio')">🚀 DASHBOARD INTERACTIVO</button>
+    <button class="tab-btn" onclick="showTab('tab-memoria')">🧮 MEMORIA DE CÁLCULO</button>
+</div>
+
+<div class="container">
+    <div id="tab-directorio" class="content active">
+        <div class="kpi-main">
+            <h3>OEE GLOBAL ACUMULADO</h3>
+            <div id="dir-oee" class="value">0%</div>
+        </div>
+
+        <div class="section-title">OEE POR TURNO</div>
+        <div class="grid-kpis">
+            <div class="card" style="border-top: 5px solid var(--m);"><h3>Mañana</h3><div id="oee-m" class="value">0%</div></div>
+            <div class="card" style="border-top: 5px solid var(--t);"><h3>Tarde</h3><div id="oee-t" class="value">0%</div></div>
+            <div class="card" style="border-top: 5px solid var(--n);"><h3>Noche</h3><div id="oee-n" class="value">0%</div></div>
+        </div>
+
+        <div class="section-title">OEE POR CENTRO DE COSTO</div>
+        <div id="grid-ceco-kpis" class="grid-kpis"></div>
         
-        <div class="mobile-filters" style="display: flex; flex-direction: column; width: 100%; gap: 10px;">
-            <div style="display: flex; gap: 5px;">
-                <select id="sel-anio" class="date-filter" style="flex: 1;" onchange="actualizarMeses()"></select>
-                <select id="sel-mes" class="date-filter" style="flex: 1;" onchange="actualizarDias()"></select>
-            </div>
-            <select id="sel-dia" class="date-filter" style="width: 100%;" onchange="aplicarFiltro()"></select>
-        </div>
-
-        <button class="btn-reset" onclick="resetearDatos()" style="width: 100%; margin-top: 10px;">🗑️ Limpiar Todo</button>
+        <div class="card" id="grafico-ceco-oee" style="min-height:400px; margin-bottom: 20px;"></div>
+        <div class="card" id="grafico-ceco-ge" style="min-height:400px; margin-bottom: 20px;"></div>
+        
+        <div class="section-title">DETALLE POR LÍNEA</div>
+        <div id="contenedor-acordeon"></div>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active" style="flex: 1;" onclick="showTab('tab-directorio')">DASHBOARD</button>
-        <button class="tab-btn" style="flex: 1;" onclick="showTab('tab-memoria')">DATOS</button>
-    </div>
-
-    <div class="container">
-        <div id="tab-directorio" class="content active">
-            <div class="kpi-main">
-                <h3 style="font-size: 0.9rem; margin-bottom: 5px;">OEE GLOBAL</h3>
-                <div id="dir-oee" class="value" style="font-size: 2.5rem;">0%</div>
-            </div>
-            <div class="grid-kpis">
-                <div class="card" style="border-top: 5px solid #f1c40f;"><h3>Mañana</h3><div id="oee-m" class="value" style="font-size: 1.2rem;">0%</div></div>
-                <div class="card" style="border-top: 5px solid #e67e22;"><h3>Tarde</h3><div id="oee-t" class="value" style="font-size: 1.2rem;">0%</div></div>
-                <div class="card" style="border-top: 5px solid #2c3e50;"><h3>Noche</h3><div id="oee-n" class="value" style="font-size: 1.2rem;">0%</div></div>
-            </div>
-            <div id="grid-ceco-kpis" class="grid-kpis" style="margin-top:15px;"></div>
-            <div class="card" id="grafico-ceco-oee" style="margin: 15px 0; min-height:300px; height: 350px;"></div>
-            <div class="card" id="grafico-ceco-ge" style="margin: 15px 0; min-height:300px; height: 350px;"></div>
-            <div id="contenedor-acordeon"></div>
-        </div>
-        <div id="tab-memoria" class="content">
-            <div class="card" style="overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0;">
-                <table style="min-width: 600px;">
-                    <thead><tr><th>Fecha</th><th>CECO</th><th>Prod</th><th>OEE %</th><th>GE %</th></tr></thead>
-                    <tbody id="body-memoria"></tbody>
-                </table>
-            </div>
+    <div id="tab-memoria" class="content">
+        <div class="card" style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr><th>Fecha</th><th>OT</th><th>Turno</th><th>Ctro. Costo</th><th>Nominal</th><th>Producido</th><th style="background:#e0f2fe">OEE %</th><th style="background:#fef3c7">GE %</th></tr>
+                </thead>
+                <tbody id="body-memoria"></tbody>
+            </table>
         </div>
     </div>
+</div>
 
-    <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/engine.js"></script>
-    <script src="js/ui.js"></script>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+
 </body>
 </html>
