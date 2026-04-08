@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Industrial CPRII</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script src="https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.min.js"></script>
+</head>
+<body>
+    <header><h1>Gestión de Planta - Dashboards</h1></header>
+
+    <div class="controls-bar">
+        <button onclick="login()" class="date-filter">🔑 Acceso OneDrive</button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <strong>Filtrar:</strong>
+            <select id="sel-anio" class="date-filter" onchange="actualizarMeses()"></select>
+            <select id="sel-mes" class="date-filter" onchange="actualizarDias()"></select>
+            <select id="sel-dia" class="date-filter" onchange="aplicarFiltro()"></select>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('tab-directorio')">🚀 DASHBOARD</button>
+        <button class="tab-btn" onclick="showTab('tab-memoria')">🧮 MEMORIA</button>
+    </div>
+
+    <div class="container">
+        <div id="tab-directorio" class="content active">
+            <div class="kpi-main">
+                <h3>OEE GLOBAL</h3>
+                <div id="dir-oee" class="value">0%</div>
+            </div>
+            <div class="grid-kpis">
+                <div class="card" style="border-top: 5px solid #f1c40f;"><h3>Mañana</h3><div id="oee-m" class="value">0%</div></div>
+                <div class="card" style="border-top: 5px solid #e67e22;"><h3>Tarde</h3><div id="oee-t" class="value">0%</div></div>
+                <div class="card" style="border-top: 5px solid #2c3e50;"><h3>Noche</h3><div id="oee-n" class="value">0%</div></div>
+            </div>
+            <div id="grid-ceco-kpis" class="grid-kpis" style="margin-top:20px;"></div>
+            <div class="card" id="grafico-ceco-oee" style="margin: 20px 0; min-height:400px;"></div>
+            <div class="card" id="grafico-ceco-ge" style="margin: 20px 0; min-height:400px;"></div>
+            <div id="contenedor-acordeon"></div>
+        </div>
+
+        <div id="tab-memoria" class="content">
+            <div class="card">
+                <table>
+                    <thead><tr><th>Fecha</th><th>OT</th><th>Turno</th><th>CECO</th><th>Nominal</th><th>Prod</th><th>OEE %</th><th>GE %</th></tr></thead>
+                    <tbody id="body-memoria"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>

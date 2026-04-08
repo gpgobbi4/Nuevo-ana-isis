@@ -1,0 +1,28 @@
+:root { 
+    --primary: #1a2a6c; --bg: #f0f2f5; 
+    --success: #27ae60; --danger: #e74c3c;
+    --m: #f1c40f; --t: #e67e22; --n: #2c3e50;
+    --accent: #3498db;
+}
+body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; font-size: 0.9rem; }
+header { background: var(--primary); color: white; padding: 15px; text-align: center; }
+.controls-bar { background: #fff; padding: 15px; display: flex; justify-content: center; gap: 20px; align-items: center; border-bottom: 2px solid #ddd; position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; }
+.date-filter { padding: 8px 15px; border-radius: 6px; border: 2px solid var(--primary); font-weight: bold; color: var(--primary); cursor: pointer; }
+.btn-reset { background: white; color: var(--danger); border: 2px solid var(--danger); padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.tabs { display: flex; justify-content: center; background: #fff; border-bottom: 2px solid #ddd; position: sticky; top: 72px; z-index: 100; }
+.tab-btn { padding: 12px 20px; cursor: pointer; border: none; background: none; font-weight: bold; color: #666; }
+.tab-btn.active { color: var(--primary); border-bottom: 4px solid var(--primary); background: #f8f9fa; }
+.container { padding: 15px; max-width: 1300px; margin: auto; }
+.content { display: none; } .content.active { display: block; }
+.kpi-main { background: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 2px solid var(--primary); }
+.kpi-main .value { font-size: 3rem; font-weight: bold; color: var(--primary); }
+.grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+.card { background: white; padding: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+.ceco-group { margin-bottom: 10px; border-radius: 8px; overflow: hidden; background: white; }
+.ceco-header { background: #f8f9fa; padding: 12px 20px; cursor: pointer; display: flex; justify-content: space-between; font-weight: bold; border-left: 5px solid var(--accent); }
+.ceco-content { display: none; padding: 10px; }
+.ceco-content.open { display: block; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+.highlight-select { background-color: #e0f2fe !important; animation: pulse-highlight 1.5s; }
+@keyframes pulse-highlight { 0% { background-color: #e0f2fe; } 100% { background-color: white; } }
